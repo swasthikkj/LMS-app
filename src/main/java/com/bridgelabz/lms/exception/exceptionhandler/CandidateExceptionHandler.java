@@ -9,7 +9,7 @@ import com.bridgelabz.lms.util.Response;
 
 public class CandidateExceptionHandler {
 	@ExceptionHandler(CandidateNotFoundException.class)
-	public ResponseEntity<Response> handleId(CandidateNotFoundException ab){
+	public ResponseEntity<Response> handleId(CandidateNotFoundException ab) {
 		Response response = new Response();
 		response.setErrorcode(400);
 		response.setMessage(ab.getMessage());

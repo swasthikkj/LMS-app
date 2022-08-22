@@ -23,7 +23,7 @@ public class CandidateModel {
 	@Id
 	@GenericGenerator(name = "candidate", strategy = "increment")
 	@GeneratedValue(generator = "candidate")
-	private Long id;
+	private long id;
 	private String cicId;
 	private String fullName;
 	private String email;
@@ -61,7 +61,6 @@ public class CandidateModel {
 		this.creatorUser = candidateDTO.getCreatorUser();
 		this.candidateStatus = candidateDTO.getCandidateStatus();
 		this.createdTimeStamp = candidateDTO.getCreatedTimeStamp().now();
-		this.updatedTimeStamp = candidateDTO.getUpdatedTimeStamp();
-
+		this.updatedTimeStamp = candidateDTO.getUpdatedTimeStamp().now();
 	}
 }

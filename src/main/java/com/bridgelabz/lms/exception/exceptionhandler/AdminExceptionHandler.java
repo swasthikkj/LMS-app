@@ -10,7 +10,7 @@ import com.bridgelabz.lms.util.Response;
 @ControllerAdvice
 public class AdminExceptionHandler {
 	@ExceptionHandler(AdminNotFoundException.class)
-	public ResponseEntity<Response> handleId(AdminNotFoundException ab){
+	public ResponseEntity<Response> handleId(AdminNotFoundException ab) {
 		Response response = new Response();
 		response.setErrorcode(400);
 		response.setMessage(ab.getMessage());

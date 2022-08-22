@@ -3,6 +3,8 @@ package com.bridgelabz.lms.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +29,12 @@ public class CandidateController {
 	ICandidateService candidateService;
 	
 	@PostMapping("/addCandidate")
-	public CandidateModel addCandidate(@RequestBody CandidateDTO candidateDTO, @RequestHeader String token) {
+	public CandidateModel addCandidate(@Valid @RequestBody CandidateDTO candidateDTO, @RequestHeader String token) {
 		return candidateService.addCandidate(candidateDTO, token);		
 	}
 	
 	@PutMapping("updateCandidate/{id}")
-	public CandidateModel updateCandidate(@RequestBody CandidateDTO candidateDTO, @PathVariable Long id, @RequestHeader String token) {
+	public CandidateModel updateCandidate(@Valid @RequestBody CandidateDTO candidateDTO, @PathVariable Long id, @RequestHeader String token) {
 		return candidateService.updateCandidate(candidateDTO, id, token);
 	}
 	
@@ -52,12 +54,17 @@ public class CandidateController {
 	}
 	
 	@GetMapping("/getCandidate/{status}")
-	public List<CandidateModel> getCandidateByStatus(@RequestHeader String status) {
-		return candidateService.getCandidateByStatus(status);		
+	public List<CandidateModel> getCandidateByStatus(@RequestHeader String status, @RequestHeader String token) {
+		return candidateService.getCandidateByStatus(status, token);		
 	}
 	
 	@PutMapping("/changeStatus/{id}")
-	public CandidateModel candidateStatus(@PathVariable("id") Long id,@RequestParam String status) {
-		return candidateService.changeStatus(id, status);		
+	public CandidateModel candidateStatus(@PathVariable("id") Long id, @RequestParam String status, @RequestHeader String token) {
+		return candidateService.changeStatus(id, status, token);		
+	}
+	
+	@GetMapping("/getStatusCount")
+	public long statusCount(@RequestHeader String status, @RequestHeader String token) {
+		return candidateService.statusCount(status, token);
 	}
 }

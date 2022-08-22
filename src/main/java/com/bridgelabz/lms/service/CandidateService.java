@@ -26,7 +26,6 @@ public class CandidateService implements ICandidateService {
 	@Autowired
 	AdminRepository adminRepository;
 
-
 	@Override
 	public CandidateModel addCandidate(CandidateDTO candidateDTO, String token) {
 		Long candidateId = tokenUtil.decodeToken(token);
@@ -78,7 +77,7 @@ public class CandidateService implements ICandidateService {
 	@Override
 	public List<CandidateModel> getAllCandidates(String token) {
 		Long candidateId = tokenUtil.decodeToken(token);
-		List<CandidateModel>getAllCandidates = candidateRepository.findAll();
+		List<CandidateModel> getAllCandidates = candidateRepository.findAll();
 		if(getAllCandidates.size()>0) {
 			return getAllCandidates;
 		} else {
@@ -98,7 +97,7 @@ public class CandidateService implements ICandidateService {
 	}
 
 	@Override
-	public List<CandidateModel> getCandidateByStatus(String status) {
+	public List<CandidateModel> getCandidateByStatus(String status, String token) {
 		List<CandidateModel> isStatusPresent = candidateRepository.findByStatus(status);
 		if (isStatusPresent.size() > 0) {
 			return isStatusPresent;
@@ -107,7 +106,7 @@ public class CandidateService implements ICandidateService {
 	}
 
 	@Override
-	public CandidateModel changeStatus(Long id, String status) {
+	public CandidateModel changeStatus(Long id, String status, String token) {
 		Optional<CandidateModel> isIdPresent = candidateRepository.findById(id);
 		if (isIdPresent.isPresent()) {
 			isIdPresent.get().setStatus(status);
@@ -116,4 +115,14 @@ public class CandidateService implements ICandidateService {
 		}
 		throw new CandidateNotFoundException(400, "Status not found");
 	}
+	
+	@Override
+	public long statusCount(String status, String token) {
+		List<CandidateModel> isStatusPresent = candidateRepository.findByStatus(status);
+		if(isStatusPresent.size() > 0) {
+			return isStatusPresent.stream().count();
+		}
+		throw new CandidateNotFoundException(400, "status not found");
+	}
+	
 }

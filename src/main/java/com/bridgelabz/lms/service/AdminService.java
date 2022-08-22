@@ -27,16 +27,16 @@ public class AdminService implements IAdminService {
 	@Override
 	public AdminModel addAdmin(AdminDTO adminDTO) {
 		AdminModel model = new AdminModel(adminDTO);
-		String body="Admin is added succesfully with adminId "+model.getId();
-		String subject="Admin Registration Succesfull";
-		mailService.send(model.getEmailId(),subject,body);
 		adminRepository.save(model);
+		String body="Admin is added succesfully with adminId " + model.getId();
+		String subject="Admin Registration Succesfull";
+		mailService.send(model.getEmailId(), subject, body);		
 		return model;
 	}
 
 	@Override
 	public AdminModel updateAdmin(AdminDTO adminDTO, Long id, String token) {
-		Long adminId=tokenUtil.decodeToken(token);
+		Long adminId = tokenUtil.decodeToken(token);
 		Optional<AdminModel> isAdminPresent = adminRepository.findById(id);
 		if(isAdminPresent.isPresent()) {
 			isAdminPresent.get().setFirstName(adminDTO.getFirstName());
@@ -61,8 +61,8 @@ public class AdminService implements IAdminService {
 	
 	@Override
 	public List<AdminModel> getAllAdmins(String token) {
-		Long adminId=tokenUtil.decodeToken(token);
-		List<AdminModel>getAllAdmins = adminRepository.findAll();
+		Long adminId = tokenUtil.decodeToken(token);
+		List<AdminModel> getAllAdmins = adminRepository.findAll();
 		if(getAllAdmins.size()>0) {
 			return getAllAdmins;
 		} else {
@@ -72,7 +72,7 @@ public class AdminService implements IAdminService {
 
 	@Override
 	public AdminModel deleteAdmin(Long id, String token) {
-		Long adminId=tokenUtil.decodeToken(token);
+		Long adminId = tokenUtil.decodeToken(token);
 		Optional<AdminModel> isAdminPresent = adminRepository.findById(id);
 		if(isAdminPresent.isPresent()) {
 			adminRepository.delete(isAdminPresent.get());

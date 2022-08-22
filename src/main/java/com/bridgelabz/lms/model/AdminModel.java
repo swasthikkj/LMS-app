@@ -39,6 +39,6 @@ public class AdminModel {
 		this.status = adminDTO.isStatus();
 		this.password = adminDTO.getPassword();
 		this.createStamp = adminDTO.getCreateStamp().now();
-		this.updatedStamp = adminDTO.getUpdatedStamp();
+		this.updatedStamp = adminDTO.getUpdatedStamp().now();
 	}
 }

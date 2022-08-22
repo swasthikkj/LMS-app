@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.bridgelabz.lms.model.CandidateModel;
+
+import com.bridgelabz.lms.model.MentorsModel;
 @Repository
-public interface CandidateRepository extends JpaRepository<CandidateModel, Long> {
-	
-	List<CandidateModel> findByStatus(String status);
+public interface MentorsRepository extends JpaRepository<MentorsModel, Long> {
+
+	List<MentorsModel> findByMentorRole(String role);
 
 }
