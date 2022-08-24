@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.lms.dto.MentorsDTO;
-import com.bridgelabz.lms.exception.AdminNotFoundException;
+import com.bridgelabz.lms.exception.CustomNotFoundException;
 import com.bridgelabz.lms.model.AdminModel;
 import com.bridgelabz.lms.model.MentorsModel;
 import com.bridgelabz.lms.repository.AdminRepository;
@@ -35,9 +35,12 @@ public class MentorsService implements IMentorsService {
 		if(isTokenPresent.isPresent()) {
 			MentorsModel model = new MentorsModel(mentorsDTO);
 			mentorsRepository.save(model);
+			String body = "Mentor added successfully with Mentor Id" + model.getId();
+			String subject = "Mentor added Successfully";
+			mailService.send(model.getEmail(), subject, body);
 			return model;
 		}
-		throw new AdminNotFoundException(400, "Token not found");
+		throw new CustomNotFoundException(400, "Token not found");
 	}
 
 	@Override
@@ -69,9 +72,9 @@ public class MentorsService implements IMentorsService {
 				mailService.send(isMentorPresent.get().getEmail(), subject, body);
 				return isMentorPresent.get();
 			}
-			throw new AdminNotFoundException(400,"Mentor not present");
+			throw new CustomNotFoundException(400,"Mentor not present");
 		}
-		throw new AdminNotFoundException(400,"Token Invalid");
+		throw new CustomNotFoundException(400,"Token Invalid");
 	}
 	
 	@Override
@@ -86,7 +89,7 @@ public class MentorsService implements IMentorsService {
 		if(getAllMentors.size()>0) {
 			return getAllMentors;
 		} else {
-			throw new AdminNotFoundException(400, "Mentor not present");
+			throw new CustomNotFoundException(400, "Mentor not present");
 		}	
 	}
 
@@ -98,7 +101,7 @@ public class MentorsService implements IMentorsService {
 			mentorsRepository.delete(isMentorPresent.get());
 			return isMentorPresent.get();
 		}
-		throw new AdminNotFoundException(400, "Mentor not found");
+		throw new CustomNotFoundException(400, "Mentor not found");
 	}
 	
 	@Override
@@ -107,7 +110,7 @@ public class MentorsService implements IMentorsService {
 		if (isRolePresent.size() > 0) {
 			return isRolePresent;
 		}
-		throw new AdminNotFoundException(400, "Mentor not found");
+		throw new CustomNotFoundException(400, "Mentor not found");
 	}
 	
 	@Override
@@ -117,6 +120,6 @@ public class MentorsService implements IMentorsService {
 		if(isMentorRolePresent.size() > 0) {
 			return isMentorRolePresent.stream().count();
 		}
-		throw new AdminNotFoundException(400, "no mentor present with that role");	
+		throw new CustomNotFoundException(400, "no mentor present with that role");	
 	}
 }

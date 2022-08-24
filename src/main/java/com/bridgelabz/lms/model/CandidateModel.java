@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,8 @@ public class CandidateModel {
 	private String passedOutYear;
 	private String creatorUser;
 	private String candidateStatus;
+	@OneToOne
+	private TechStackModel techStack;
 
 	@CreationTimestamp
 	private LocalDateTime createdTimeStamp;

@@ -5,12 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.bridgelabz.lms.exception.AdminNotFoundException;
+import com.bridgelabz.lms.exception.CustomNotFoundException;
 import com.bridgelabz.lms.util.Response;
 @ControllerAdvice
-public class AdminExceptionHandler {
-	@ExceptionHandler(AdminNotFoundException.class)
-	public ResponseEntity<Response> handleId(AdminNotFoundException ab) {
+public class CustomExceptionHandler {
+	@ExceptionHandler(CustomNotFoundException.class)
+	public ResponseEntity<Response> handleId(CustomNotFoundException ab) {
 		Response response = new Response();
 		response.setErrorcode(400);
 		response.setMessage(ab.getMessage());

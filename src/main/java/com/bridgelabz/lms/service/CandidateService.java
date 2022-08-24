@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.lms.dto.CandidateDTO;
-import com.bridgelabz.lms.exception.CandidateNotFoundException;
+import com.bridgelabz.lms.exception.CustomNotFoundException;
 import com.bridgelabz.lms.model.AdminModel;
 import com.bridgelabz.lms.model.CandidateModel;
+import com.bridgelabz.lms.model.TechStackModel;
 import com.bridgelabz.lms.repository.AdminRepository;
 import com.bridgelabz.lms.repository.CandidateRepository;
+import com.bridgelabz.lms.repository.TechStackRepository;
 import com.bridgelabz.lms.util.TokenUtil;
 
 @Service
@@ -25,17 +27,29 @@ public class CandidateService implements ICandidateService {
 
 	@Autowired
 	AdminRepository adminRepository;
+	
+	@Autowired
+	TechStackRepository techRepository;
+	
+	@Autowired
+	MailService mailService;
 
 	@Override
-	public CandidateModel addCandidate(CandidateDTO candidateDTO, String token) {
+	public CandidateModel addCandidate(CandidateDTO candidateDTO, String token, Long techId) {
 		Long candidateId = tokenUtil.decodeToken(token);
 		Optional<AdminModel> isTokenPresent = adminRepository.findById(candidateId);
 		if(isTokenPresent.isPresent()) {
+			Optional<TechStackModel> techStackId = techRepository.findById(techId);
 			CandidateModel model = new CandidateModel(candidateDTO);
+			if (techStackId.isPresent())
+				model.setTechStack(techStackId.get());
 			candidateRepository.save(model);
+			String body = "candidate added successfully with candidate Id" + model.getId();
+			String subject = "candidate added Successfully";
+			mailService.send(model.getEmail(), subject, body);
 			return model;
 		}
-		throw new CandidateNotFoundException(400, "Token not found");
+		throw new CustomNotFoundException(400, "Token not found");
 	}
 
 	@Override
@@ -64,9 +78,9 @@ public class CandidateService implements ICandidateService {
 				candidateRepository.save(isCandidatePresent.get());
 				return isCandidatePresent.get();
 			}
-			throw new CandidateNotFoundException(400, "not present");
+			throw new CustomNotFoundException(400, "not present");
 		}
-		throw new CandidateNotFoundException(400, "Token not found");
+		throw new CustomNotFoundException(400, "Token not found");
 	}
 
 	@Override
@@ -78,10 +92,10 @@ public class CandidateService implements ICandidateService {
 	public List<CandidateModel> getAllCandidates(String token) {
 		Long candidateId = tokenUtil.decodeToken(token);
 		List<CandidateModel> getAllCandidates = candidateRepository.findAll();
-		if(getAllCandidates.size()>0) {
+		if(getAllCandidates.size() > 0) {
 			return getAllCandidates;
 		} else {
-			throw new CandidateNotFoundException(400, "Admin not present");
+			throw new CustomNotFoundException(400, "candidate not present");
 		}	
 	}
 
@@ -93,7 +107,7 @@ public class CandidateService implements ICandidateService {
 			candidateRepository.delete(isCandidatePresent.get());
 			return isCandidatePresent.get();
 		}
-		throw new CandidateNotFoundException(400, "Admin not found");
+		throw new CustomNotFoundException(400, "Candidate not found");
 	}
 
 	@Override
@@ -102,7 +116,7 @@ public class CandidateService implements ICandidateService {
 		if (isStatusPresent.size() > 0) {
 			return isStatusPresent;
 		}
-		throw new CandidateNotFoundException(400, "Admin not found");
+		throw new CustomNotFoundException(400, "candidate not found");
 	}
 
 	@Override
@@ -113,7 +127,7 @@ public class CandidateService implements ICandidateService {
 			candidateRepository.save(isIdPresent.get());
 			return isIdPresent.get();
 		}
-		throw new CandidateNotFoundException(400, "Status not found");
+		throw new CustomNotFoundException(400, "Status not found");
 	}
 	
 	@Override
@@ -122,7 +136,6 @@ public class CandidateService implements ICandidateService {
 		if(isStatusPresent.size() > 0) {
 			return isStatusPresent.stream().count();
 		}
-		throw new CandidateNotFoundException(400, "status not found");
-	}
-	
+		throw new CustomNotFoundException(400, "status not found");
+	}	
 }

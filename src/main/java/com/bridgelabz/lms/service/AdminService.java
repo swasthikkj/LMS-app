@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.lms.dto.AdminDTO;
-import com.bridgelabz.lms.exception.AdminNotFoundException;
+import com.bridgelabz.lms.exception.CustomNotFoundException;
 import com.bridgelabz.lms.model.AdminModel;
 import com.bridgelabz.lms.repository.AdminRepository;
 import com.bridgelabz.lms.util.Response;
@@ -51,7 +51,7 @@ public class AdminService implements IAdminService {
 			adminRepository.save(isAdminPresent.get());
 			return isAdminPresent.get();
 		}
-		throw new AdminNotFoundException(400,"not present");
+		throw new CustomNotFoundException(400,"not present");
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class AdminService implements IAdminService {
 		if(getAllAdmins.size()>0) {
 			return getAllAdmins;
 		} else {
-			throw new AdminNotFoundException(400, "Admin not present");
+			throw new CustomNotFoundException(400, "Admin not present");
 		}	
 	}
 
@@ -78,7 +78,7 @@ public class AdminService implements IAdminService {
 			adminRepository.delete(isAdminPresent.get());
 			return isAdminPresent.get();
 		}
-		throw new AdminNotFoundException(400, "Admin not found");
+		throw new CustomNotFoundException(400, "Admin not found");
 	}
 
 	@Override
@@ -89,9 +89,9 @@ public class AdminService implements IAdminService {
 				String token = tokenUtil.createToken(isEmailPresent.get().getId());
 				return new Response(400, "login succesfull", token);
 			}
-			throw new AdminNotFoundException(400, "Invalid credentials");
+			throw new CustomNotFoundException(400, "Invalid credentials");
 		}
-		throw new AdminNotFoundException(400, "User not found");
+		throw new CustomNotFoundException(400, "User not found");
 	}
 	
 	@Override
@@ -102,7 +102,7 @@ public class AdminService implements IAdminService {
             return new Response(200,"Reset password",token);
 
         }
-        throw new AdminNotFoundException(400, "Email not found");
+        throw new CustomNotFoundException(400, "Email not found");
     }
 
     @Override
@@ -114,6 +114,6 @@ public class AdminService implements IAdminService {
             adminRepository.save(isTokenPresent.get());
             return isTokenPresent.get();
         }
-        throw new AdminNotFoundException(400, "Token not found");
+        throw new CustomNotFoundException(400, "Token not found");
     }
 }

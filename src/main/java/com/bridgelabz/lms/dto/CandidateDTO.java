@@ -34,7 +34,7 @@ public class CandidateDTO {
 	   private String city;
 	   @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message = "State is Invalid")
 	   private String state;
-	   @NotBlank(message = "degree cannot be empty")
+	   @Pattern(regexp = "^[A-Z]{1}[a-z]{2,}$", message = "job location cannot be empty")
 	   private String preferredJobLocation;
 	   @NotBlank(message = "status cannot be empty")
 	   private String status;
