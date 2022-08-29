@@ -2,6 +2,7 @@ package com.bridgelabz.lms.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,20 +25,35 @@ public class CandidateModel {
 	@Id
 	@GenericGenerator(name = "candidate", strategy = "increment")
 	@GeneratedValue(generator = "candidate")
-	private long id;
+	@Column(name = "ID")
+	private Long id;
+	@Column(name = "CIC_ID")
 	private String cicId;
+	@Column(name = "FULL_NAME")
 	private String fullName;
+	@Column(name = "EMAIL")
 	private String email;
+	@Column(name = "MOBILE_NUMBER")
 	private String mobileNum;
+	@Column(name = "HIRED_DATE")
 	private String hiredDate;
+	@Column(name = "DEGREE")
 	private String degree;
+	@Column(name = "AGGREGATE_PERCENTAGE")
 	private Double aggrPer;
+	@Column(name = "CITY")
 	private String city;
+	@Column(name = "STATE")
 	private String state;
+	@Column(name = "PREFFERED_JOB_LOCATION")
 	private String preferredJobLocation;
+	@Column(name = "STATUS")
 	private String status;
+	@Column(name = "PASSED_OUT_YEAR")
 	private String passedOutYear;
+	@Column(name = "CREATOR_USER")
 	private String creatorUser;
+	@Column(name = "CANDIDATE_STATUS")
 	private String candidateStatus;
 	@OneToOne
 	private TechStackModel techStack;

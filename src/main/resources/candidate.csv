@@ -1,0 +1,5 @@
+id,cicId,fullName,email,mobileNum,hiredDate,degree,aggrPer,city,state,preferredJobLocation,status,passedOutYear,creatorUser,candidateStatus.
+1,s52,Swasthik KJ,swasthik@gmail.com,846836281,2-2-2022,BSc,70,Bangalore,karnataka,Bangalore,in progress,2020,1,engineer.
+2,s50,Shivam TS,shiva@gmail.com,846766281,10-2-2022,BE,72,Mysore,karnataka,Bangalore,completed,2019,2,engineer.
+3,s40,Shamant AM,shamant@gmail.com,926766281,4-2-2022,BTech,78,Mangalore,karnataka,Bangalore,dropped,2021,3,engineer.
+4,s44,Surya Y,surya@gmail.com,939462281,8-5-2022,BCom,82,Mumbai,Maharashtra,Mumbai,in progress,2018,4,engineer.

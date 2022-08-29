@@ -99,6 +99,9 @@ public class MentorsService implements IMentorsService {
 		Optional<MentorsModel> isMentorPresent = mentorsRepository.findById(id);
 		if(isMentorPresent.isPresent()) {
 			mentorsRepository.delete(isMentorPresent.get());
+			String body = "Mentor updated successfully with Mentor Id" + isMentorPresent.get().getId();
+			String subject = "Mentor updated Successfully";
+			mailService.send(isMentorPresent.get().getEmail(), subject, body);
 			return isMentorPresent.get();
 		}
 		throw new CustomNotFoundException(400, "Mentor not found");

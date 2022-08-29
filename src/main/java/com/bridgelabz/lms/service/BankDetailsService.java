@@ -88,6 +88,9 @@ public class BankDetailsService implements IBankDetailsService {
 		Optional<BankDetailsModel> isBankDetailsPresent = bankDetailsRepository.findById(bankAccountId);
 		if(isBankDetailsPresent.isPresent()) {
 			bankDetailsRepository.delete(isBankDetailsPresent.get());
+			String body = "BankDetails is updated succesfully with id " + isBankDetailsPresent.get().getId();
+			String subject = "BankDetails updated Succesfully";
+			mailService.send(isBankDetailsPresent.get().getEmail(), subject, body);
 			return isBankDetailsPresent.get();
 		}
 		throw new CustomNotFoundException(400, "Bank details not found");

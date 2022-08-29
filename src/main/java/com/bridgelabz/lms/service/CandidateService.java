@@ -76,6 +76,9 @@ public class CandidateService implements ICandidateService {
 				isCandidatePresent.get().setCreatedTimeStamp(LocalDateTime.now());
 				isCandidatePresent.get().setUpdatedTimeStamp(LocalDateTime.now());
 				candidateRepository.save(isCandidatePresent.get());
+				String body = "candidate updated successfully with candidate Id" + isCandidatePresent.get().getId();
+				String subject = "candidate updated Successfully";
+				mailService.send(isCandidatePresent.get().getEmail(), subject, body);
 				return isCandidatePresent.get();
 			}
 			throw new CustomNotFoundException(400, "not present");
@@ -105,6 +108,9 @@ public class CandidateService implements ICandidateService {
 		Optional<CandidateModel> isCandidatePresent = candidateRepository.findById(id);
 		if(isCandidatePresent.isPresent()) {
 			candidateRepository.delete(isCandidatePresent.get());
+			String body = "candidate deleted successfully with candidate Id" + isCandidatePresent.get().getId();
+			String subject = "candidate deleted Successfully";
+			mailService.send(isCandidatePresent.get().getEmail(), subject, body);
 			return isCandidatePresent.get();
 		}
 		throw new CustomNotFoundException(400, "Candidate not found");

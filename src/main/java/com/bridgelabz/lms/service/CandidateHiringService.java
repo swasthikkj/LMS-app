@@ -106,6 +106,9 @@ public class CandidateHiringService implements ICandidateHiringService {
 		Optional<HiringCandidateModel> isHireCandidatePresent = hireCandidateRepository.findById(id);
 		if(isHireCandidatePresent.isPresent()) {
 			hireCandidateRepository.delete(isHireCandidatePresent.get());
+			String body = "Hiring candidate updated successfully with bank Id" + isHireCandidatePresent.get().getId();
+			String subject = "hiring candidate updated Successfully";
+			mailService.send(isHireCandidatePresent.get().getEmail(), subject, body);
 			return isHireCandidatePresent.get();
 		}
 		throw new CustomNotFoundException(400, "Candidate not found");	
