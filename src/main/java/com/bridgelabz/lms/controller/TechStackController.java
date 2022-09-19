@@ -51,7 +51,7 @@ public class TechStackController {
 	 * @Param token and id
 	 */
 	@GetMapping("/getTechStack/{id}")
-    public Optional<TechStackModel> getTechStackById(@PathVariable Long id, @RequestHeader String token) {
+    public Optional<TechStackModel> getTechById(@PathVariable Long id, @RequestHeader String token) {
         return techService.getTechById(id, token);
     }
 	/**
@@ -59,7 +59,7 @@ public class TechStackController {
 	 * @Param token 
 	 */
 	@GetMapping("/getAllTechStacks")
-	public List<TechStackModel> getAllTechStack(@RequestHeader String token) {
+	public List<TechStackModel> getAllTechStacks(@RequestHeader String token) {
 		return techService.getAllTechStacks(token);	
 	}
 	/**

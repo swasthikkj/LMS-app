@@ -43,7 +43,7 @@ public class BankDetailsController {
 	 * @Param token and id
 	 */
 	@PutMapping("updateBankDetails/{id}")
-	public BankDetailsModel updateCandidate(@Valid @RequestBody BankDetailsDTO bankDetailsDTO, @PathVariable Long id, @RequestHeader String token) {
+	public BankDetailsModel updateBankDetails(@Valid @RequestBody BankDetailsDTO bankDetailsDTO, @PathVariable Long id, @RequestHeader String token) {
 		return bankDetailsService.updateBankDetails(bankDetailsDTO, id, token);
 	}
 	/**

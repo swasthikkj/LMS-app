@@ -50,7 +50,7 @@ public class HiringCandidateController {
 	 * @Param token and id
 	 */
 	@GetMapping("/getCandidateData/{id}")
-    public Optional<HiringCandidateModel> getCandidateById(@PathVariable Long id, @RequestHeader String token) {
+    public Optional<HiringCandidateModel> getHireCandidateById(@PathVariable Long id, @RequestHeader String token) {
         return hireCandidateService.getHireCandidateById(id, token);
     }
 	/**
@@ -58,7 +58,7 @@ public class HiringCandidateController {
 	 * @Param token 
 	 */
 	@GetMapping("/getAllCandidates")
-	public List<HiringCandidateModel> getAllCandidates(@RequestHeader String token) {
+	public List<HiringCandidateModel> getAllHireCandidates(@RequestHeader String token) {
 		return hireCandidateService.getAllHireCandidates(token);	
 	}
 	/**
@@ -66,7 +66,7 @@ public class HiringCandidateController {
 	 * @Param token and id
 	 */
 	@DeleteMapping("/deleteCandidate/{id}")
-	public HiringCandidateModel deleteCandidate(@PathVariable Long id,  @RequestHeader String token) {
+	public HiringCandidateModel deleteHireCandidate(@PathVariable Long id,  @RequestHeader String token) {
 		return hireCandidateService.deleteHireCandidate(id, token);
 	}
 }

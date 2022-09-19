@@ -10,6 +10,8 @@ import com.bridgelabz.lms.dto.AdminDTO;
 import com.bridgelabz.lms.exception.CustomNotFoundException;
 import com.bridgelabz.lms.model.AdminModel;
 import com.bridgelabz.lms.repository.AdminRepository;
+import com.bridgelabz.lms.util.Email;
+import com.bridgelabz.lms.util.MessageProducer;
 import com.bridgelabz.lms.util.Response;
 import com.bridgelabz.lms.util.TokenUtil;
 
@@ -24,12 +26,23 @@ public class AdminService implements IAdminService {
 	@Autowired
 	MailService mailService;
 
+	@Autowired
+	Email email;
+	
+	@Autowired
+	MessageProducer meaasgeProducer;
+	
 	@Override
 	public AdminModel addAdmin(AdminDTO adminDTO) {
 		AdminModel model = new AdminModel(adminDTO);
 		adminRepository.save(model);
-		String body="Admin is added succesfully with adminId " + model.getId();
-		String subject="Admin Registration Succesfull";
+		String body = "Admin is added succesfully with adminId " + model.getId();
+		String subject = "Admin Registration Succesfull";
+		email.setTo(adminDTO.getEmailId());
+		email.setFrom("swasthikkj@gmail.com");
+		email.setSubject("Verification...");
+		email.setBody(mailService.getLink("http://localhost:8086/adminmodule/addAdmin", model.getId()));
+		meaasgeProducer.sendMessage(email);
 		mailService.send(model.getEmailId(), subject, body);		
 		return model;
 	}
@@ -58,7 +71,7 @@ public class AdminService implements IAdminService {
 	public Optional<AdminModel> getAdminById(Long id, String token) {
 		return adminRepository.findById(id);
 	}
-	
+
 	@Override
 	public List<AdminModel> getAllAdmins(String token) {
 		Long adminId = tokenUtil.decodeToken(token);
@@ -93,27 +106,27 @@ public class AdminService implements IAdminService {
 		}
 		throw new CustomNotFoundException(400, "User not found");
 	}
-	
+
 	@Override
-    public Response resetPassword(String emailId) {
-        Optional<AdminModel> isMailPresent = adminRepository.findByEmailId(emailId);
-        if (isMailPresent.isPresent()){
-            String token = tokenUtil.createToken(isMailPresent.get().getId());
-            return new Response(200,"Reset password",token);
+	public Response resetPassword(String emailId) {
+		Optional<AdminModel> isMailPresent = adminRepository.findByEmailId(emailId);
+		if (isMailPresent.isPresent()){
+			String token = tokenUtil.createToken(isMailPresent.get().getId());
+			return new Response(200,"Reset password",token);
 
-        }
-        throw new CustomNotFoundException(400, "Email not found");
-    }
+		}
+		throw new CustomNotFoundException(400, "Email not found");
+	}
 
-    @Override
-    public AdminModel changePassword(String token, String password) {
-        Long decode = tokenUtil.decodeToken(token);
-        Optional<AdminModel> isTokenPresent = adminRepository.findById(decode);
-        if (isTokenPresent.isPresent()) {
-            isTokenPresent.get().setPassword(password);
-            adminRepository.save(isTokenPresent.get());
-            return isTokenPresent.get();
-        }
-        throw new CustomNotFoundException(400, "Token not found");
-    }
+	@Override
+	public AdminModel changePassword(String token, String password) {
+		Long decode = tokenUtil.decodeToken(token);
+		Optional<AdminModel> isTokenPresent = adminRepository.findById(decode);
+		if (isTokenPresent.isPresent()) {
+			isTokenPresent.get().setPassword(password);
+			adminRepository.save(isTokenPresent.get());
+			return isTokenPresent.get();
+		}
+		throw new CustomNotFoundException(400, "Token not found");
+	}
 }

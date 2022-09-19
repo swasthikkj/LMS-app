@@ -2,6 +2,7 @@ package com.bridgelabz.lms.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import lombok.Data;
@@ -14,7 +15,8 @@ public class AdminDTO {
 	@Pattern(regexp = "^[9,8,7,6]{1}[0-9]{9}$", message = "mobile number invalid")
 	private String mobileNumber;
 	@Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "email is invalid")
-	private String emailId;	
+	private String emailId;
+	@NotBlank(message = "profilepath cannot be empty")
 	private String profilePath;
 	private boolean status;
 	@Pattern(regexp = "^[a-zA-Z0-9*&@]{8,20}$", message = "password is invalid")

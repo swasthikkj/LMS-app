@@ -11,11 +11,16 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.bridgelabz.lms.util.TokenUtil;
 @Component
 public class MailService {
-	public static void send(String toEmail, String subject, String body)
-	{
+	@Autowired
+	TokenUtil tokenUtil;
+	
+	public static void send(String toEmail, String subject, String body) {
 		final String fromEmail = System.getenv("email");
 		// requires valid gmail id
 		final String password = System.getenv("password"); // correct password for gmail id
@@ -30,10 +35,8 @@ public class MailService {
 		props.put("mail.smtp.starttls.enable", "true");
 		// enable STARTTLS
 		// to check email sender credentials are valid or not
-		Authenticator auth = new Authenticator()
-		{
-			protected PasswordAuthentication getPasswordAuthentication()
-			{
+		Authenticator auth = new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(fromEmail, password);
 			}
 		};
@@ -54,5 +57,9 @@ public class MailService {
 		catch (Exception e)	{
 			e.printStackTrace();
 		}
+	}
+	
+	public String getLink(String link, long id) {
+		return link+tokenUtil.createToken(id);
 	}
 }

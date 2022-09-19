@@ -48,7 +48,7 @@ public class MentorsService implements IMentorsService {
 		Long mentorId = tokenUtil.decodeToken(token);
 		Optional<AdminModel> isTokenPresent = adminRepository.findById(mentorId);
 		if(isTokenPresent.isPresent()) {
-			Optional<MentorsModel>isMentorPresent = mentorsRepository.findById(id);
+			Optional<MentorsModel> isMentorPresent = mentorsRepository.findById(id);
 			if(isMentorPresent.isPresent()) {
 				isMentorPresent.get().setEmployeeId(mentorsDTO.getEmployeeId());
 				isMentorPresent.get().setFirstName(mentorsDTO.getFirstName());
